@@ -19,13 +19,11 @@ ENV LANG=pt_BR.UTF-8 \
 
 RUN pip install --no-cache-dir pipenv
 
-COPY . /src/
+COPY . /app-patnet/
 
-WORKDIR /src
+WORKDIR /app-patnet
 
 RUN pipenv install --deploy --system
-
-WORKDIR /src/app
 
 EXPOSE 8080
 
