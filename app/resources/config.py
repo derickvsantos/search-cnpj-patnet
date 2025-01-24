@@ -1,6 +1,8 @@
-URL = "https://www3.mte.gov.br/sistemas/patnet/"
-USER = "40458674818"
-PWD = "prime01"
+import os
+
+URL = os.getenv("URL")
+USER = os.getenv("USER")
+PWD = os.getenv("PWD")
 TOKEN = ""
 TIMEOUT = 15
 HEADERS = {
