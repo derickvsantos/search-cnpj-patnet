@@ -56,7 +56,6 @@ Thumbs.db
 report.html
 log.html
 output.xml
-Pipfile.lock
 .vscode/atalhos.code-snippets
 !/Listeners/*.html
 google_secret.json
