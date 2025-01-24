@@ -34,7 +34,6 @@ class Patnet(PDFExtractor):
             response = self.session.request(method="GET", url=url, headers=config.HEADERS, timeout=10)
         except requests.exceptions.ReadTimeout as e:
             raise Exception("Portal PATNET fora do ar ou instavel")
-        self.log_request("GET", url, headers=config.HEADERS)
         soup = BeautifulSoup(response.content, "html.parser")
         
         payload = {
@@ -62,7 +61,6 @@ class Patnet(PDFExtractor):
         payload_login.update(payload_comum)
         payload_login["ctl00$PlaceHolderConteudo$txtUsuario"] = config.USER
         payload_login["ctl00$PlaceHolderConteudo$txtSenha"] = config.PWD
-        self.log_request("POST", config.URL + "LoginPAT.aspx", headers=config.HEADERS, data=payload_login)
         response = self.session.request(method="POST",
                                         url=config.URL + "LoginPAT.aspx", 
                                         data=payload_login,
@@ -82,7 +80,6 @@ class Patnet(PDFExtractor):
         payload_reemissao = selectors.PAYLOAD_REMISSAO
         payload_reemissao.update(payload_comum)
 
-        self.log_request("POST", config.URL + "Beneficiaria/ReemitirComprovanteInscricao.aspx", headers=config.HEADERS, data=payload_reemissao)
         response_inicial = self.session.request(method="POST", 
                                                 url=config.URL + "Beneficiaria/ReemitirComprovanteInscricao.aspx",
                                                 data=payload_reemissao,
@@ -111,7 +108,6 @@ class Patnet(PDFExtractor):
         payload_busca["ctl00$PlaceHolderConteudo$txtCNPJCEI"] = self.cnpj
         payload_busca['__VIEWSTATE'] = viewstate
 
-        self.log_request("POST", config.URL + "Beneficiaria/ReemitirComprovanteInscricao.aspx", headers=config.HEADERS, data=payload_busca)
         final_response = self.session.request(method="POST", 
                                               url=config.URL + "Beneficiaria/ReemitirComprovanteInscricao.aspx", 
                                               data=payload_busca, 
@@ -144,7 +140,6 @@ class Patnet(PDFExtractor):
             Response: Resposta da requisição de download do PDF.
         """
         url = config.URL + "Relatorios/ImprimirComprovanteEmpresaBeneficiaria.aspx?tpComprovante=Completo"
-        self.log_request("GET", url, headers=config.HEADERS)
         response = self.session.request(method="GET", url=url, headers=config.HEADERS)
         return response
 
@@ -160,16 +155,3 @@ class Patnet(PDFExtractor):
         self.buscar_cnpj(response_inicial, payload_comum)
         pdfBytes = self.pegar_pdf()
         return self.process_pdf(pdfBytes.content)
-    
-    def executar(cnpj):
-        """
-        Executa o processo completo de extração de dados do PDF.
-
-        Args:
-            cnpj (str): CNPJ da empresa.
-
-        Returns:
-            dict: Dados extraídos do PDF.
-        """
-        patnet = Patnet(cnpj)
-        return patnet.start()
