@@ -7,5 +7,5 @@ services:
     ports:
       - 8000:8000
     volumes:
-      - .:/app-patnet
-    command: sh -c "uvicorn main:app --host 0.0.0.0 --reload"
+      - .:/src
+    command: sh -c "uvicorn app.main:app --host 0.0.0.0 --reload"

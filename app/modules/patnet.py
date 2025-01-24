@@ -1,8 +1,8 @@
 import re
 import requests
 from bs4 import BeautifulSoup
-from resources import config, selectors
-from modules.pdf_extract import PDFExtractor
+from app.resources import config, selectors
+from app.modules.pdf_extract import PDFExtractor
 
 class Patnet(PDFExtractor):
     """
