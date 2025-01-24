@@ -1,6 +1,6 @@
 from fastapi import APIRouter
-from modules.patnet import Patnet
-from schemas.cnpj import CNPJInput, CNPJOutput
+from app.modules.patnet import Patnet
+from app.schemas.cnpj import CNPJInput, CNPJOutput
 
 router = APIRouter(prefix='/search', tags=['Search'])
 

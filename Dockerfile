@@ -1,6 +1,10 @@
 FROM python:3.10-slim
-ENV PYTHONUNBUFFERED 1
 
+# Define variáveis de ambiente para o Python
+ENV PYTHONUNBUFFERED 1
+ENV PYTHONPATH=/src
+
+# Instalações de dependências e configurações locais
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     libpq-dev \
@@ -8,23 +12,18 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update && apt-get install -y locales && \
-    sed -i '/pt_BR.UTF-8/s/^# //' /etc/locale.gen && \
-    locale-gen
-    
-ENV LANG=pt_BR.UTF-8 \
-    LANGUAGE=pt_BR:pt:en \
-    LC_ALL=pt_BR.UTF-8
+# Copiar o projeto para o diretório do contêiner
+COPY . /src/
 
+# Define o diretório de trabalho
+WORKDIR /src
 
+# Instalar dependências com Pipenv
 RUN pip install --no-cache-dir pipenv
-
-COPY . /app-patnet/
-
-WORKDIR /app-patnet
-
 RUN pipenv install --deploy --system
 
-EXPOSE 8080
+# Expor a porta padrão do Uvicorn
+EXPOSE 8000
 
-CMD ["pipenv", "run", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080"]
+# Comando para iniciar o Uvicorn
+CMD ["pipenv", "run", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
