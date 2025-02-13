@@ -1,8 +1,12 @@
 import os
+from dotenv import load_dotenv, find_dotenv
 
-URL = os.getenv("URL")
-USER = os.getenv("USER")
-PWD = os.getenv("PWD")
+dotenv_path = os.path.join(os.path.dirname(__file__), ".env")
+load_dotenv(dotenv_path, override=True)
+
+URL = os.getenv("URL_PATNET")
+USER = os.getenv("USER_PATNET")
+PWD = os.getenv("PWD_PATNET")
 TOKEN = ""
 TIMEOUT = 15
 HEADERS = {

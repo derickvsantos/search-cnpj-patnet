@@ -8,6 +8,7 @@ class CNPJInput(BaseModel):
     def validate_cnpj(cls, value):
         if len(value) != 14:
             raise ValueError('CNPJ inválido')
+        return value
         
 class CNPJOutput(BaseModel):
     inscricao_pat: str
@@ -21,3 +22,6 @@ class CNPJOutput(BaseModel):
     def validate_data_inscricao(cls, value):
         formated_date = datetime.strptime(value, '%Y-%m-%d')
         return formated_date.strftime('%d/%m/%Y')
+
+class CNPJInputAsync(BaseModel):
+    list_cnpjs: str

@@ -9,6 +9,8 @@ uvicorn = "*"
 requests = "*"
 pypdf2 = "*"
 bs4 = "*"
+asyncio = "*"
+python-dotenv = "*"
 
 [dev-packages]
 
